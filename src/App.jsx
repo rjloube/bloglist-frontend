@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import Blog from "./components/Blog";
 import LoginForm from "./components/LoginForm";
-import NoteForm from "./components/NoteForm";
+import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -15,11 +14,21 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      blogService.setToken(user.token);
+    }
+  }, []);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const user = await loginService.login({ username, password });
-      console.log("user", user);
+      window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
+      blogService.setToken(user.token);
       setUser(user);
       setUsername("");
       setPassword("");
@@ -39,7 +48,7 @@ const App = () => {
           setPassword={setPassword}
         />
       ) : (
-        <NoteForm user={user} blogs={blogs} />
+        <BlogForm user={user} setUser={setUser} blogs={blogs} />
       )}
     </div>
   );
