@@ -6,6 +6,9 @@ import loginService from "./services/login";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
+  const [title, setNewTitle] = useState("");
+  const [author, setNewAuthor] = useState("");
+  const [url, setNewUrl] = useState("");
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +51,18 @@ const App = () => {
           setPassword={setPassword}
         />
       ) : (
-        <BlogForm user={user} setUser={setUser} blogs={blogs} />
+        <BlogForm
+          user={user}
+          setUser={setUser}
+          blogs={blogs}
+          setBlogs={setBlogs}
+          title={title}
+          setNewTitle = {setNewTitle}
+          author={author}
+          setNewAuthor = {setNewAuthor}
+          url={url}
+          setNewUrl = {setNewUrl}
+        />
       )}
     </div>
   );
