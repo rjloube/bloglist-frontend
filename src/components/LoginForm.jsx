@@ -1,13 +1,18 @@
+import Notification from './Notification';
+
 const LoginForm = ({
   handleLogin,
   username,
   setUsername,
   password,
   setPassword,
+  message,
+  messageType,
 }) => {
   return (
     <>
       <h2>Log In To Application</h2>
+      <Notification message={message} messageType={messageType} />
       <form onSubmit={handleLogin}>
         <div>
           <input

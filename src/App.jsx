@@ -12,6 +12,8 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState(null);
+  const [messageType, setMessageType] = useState("");
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -37,6 +39,12 @@ const App = () => {
       setPassword("");
     } catch (exception) {
       console.error(exception);
+      setMessage("Wrong username or password");
+      setMessageType("error");
+      setTimeout(() => {
+        setMessage(null);
+        setMessageType("");
+      }, 5000);
     }
   };
 
@@ -49,6 +57,8 @@ const App = () => {
           setUsername={setUsername}
           password={password}
           setPassword={setPassword}
+          message={message}
+          messageType={messageType}
         />
       ) : (
         <BlogForm
@@ -57,11 +67,15 @@ const App = () => {
           blogs={blogs}
           setBlogs={setBlogs}
           title={title}
-          setNewTitle = {setNewTitle}
+          setNewTitle={setNewTitle}
           author={author}
-          setNewAuthor = {setNewAuthor}
+          setNewAuthor={setNewAuthor}
           url={url}
-          setNewUrl = {setNewUrl}
+          setNewUrl={setNewUrl}
+          message={message}
+          setMessage={setMessage}
+          messageType={messageType}
+          setMessageType={setMessageType}
         />
       )}
     </div>

@@ -1,4 +1,5 @@
 import Blog from "./Blog";
+import Notification from "./Notification";
 import blogService from "../services/blogs";
 
 const BlogForm = ({
@@ -12,6 +13,10 @@ const BlogForm = ({
   setNewAuthor,
   url,
   setNewUrl,
+  message,
+  setMessage,
+  messageType,
+  setMessageType,
 }) => {
   const logout = () => {
     window.localStorage.removeItem("loggedBlogAppUser");
@@ -38,16 +43,37 @@ const BlogForm = ({
       url: url,
     };
 
-    const returnedBlog = await blogService.create(newBlog);
-    setBlogs(blogs.concat(returnedBlog));
-    setNewTitle("");
-    setNewAuthor("");
-    setNewUrl("");
+    try {
+      const returnedBlog = await blogService.create(newBlog);
+      setBlogs(blogs.concat(returnedBlog));
+      setNewTitle("");
+      setNewAuthor("");
+      setNewUrl("");
+      setMessage(
+        `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
+      );
+      setMessageType("info");
+      setTimeout(() => {
+        setMessage(null);
+        setMessageType("");
+      }, 5000);
+    } catch (exception) {
+      console.error(exception);
+      setMessage("All fields are required");
+      setMessageType("error");
+      setTimeout(() => {
+        setMessage(null);
+        setMessageType("");
+      }, 5000);
+    }
+
+
   };
 
   return (
     <div>
       <h2>Blogs</h2>
+      <Notification message={message} messageType={messageType} />
       <p>
         {user.name} logged in
         <button onClick={logout}>logout</button>
@@ -55,14 +81,31 @@ const BlogForm = ({
       <h2>Create New</h2>
       <form onSubmit={addBlog}>
         <div>
-          title: <input type="text" value={title}  name="title" onChange={handleTitleChange} />
+          title:{" "}
+          <input
+            type="text"
+            value={title}
+            name="title"
+            onChange={handleTitleChange}
+          />
         </div>
         <div>
           author:{" "}
-          <input type="text" value={author} name="author" onChange={handleAuthorChange} />
+          <input
+            type="text"
+            value={author}
+            name="author"
+            onChange={handleAuthorChange}
+          />
         </div>
         <div>
-          url: <input type="text" value={url} name="url" onChange={handleUrlChange} />
+          url:{" "}
+          <input
+            type="text"
+            value={url}
+            name="url"
+            onChange={handleUrlChange}
+          />
         </div>
         <button type="submit">create</button>
       </form>
