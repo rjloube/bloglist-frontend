@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
+import Toggable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -50,6 +51,7 @@ const App = () => {
 
   return (
     <div>
+      <h1>Blogs</h1>
       {user === null ? (
         <LoginForm
           handleLogin={handleLogin}
