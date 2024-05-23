@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
+import Blog from "./components/Blog";
 import Toggable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [title, setNewTitle] = useState("");
-  const [author, setNewAuthor] = useState("");
-  const [url, setNewUrl] = useState("");
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -49,6 +47,34 @@ const App = () => {
     }
   };
 
+  const logout = () => {
+    window.localStorage.removeItem("loggedBlogAppUser");
+    setUser(null);
+  };
+
+  const createBlog = async (newBlog) => {
+    try {
+      const returnedBlog = await blogService.create(newBlog);
+      setBlogs(blogs.concat(returnedBlog));
+      setMessage(
+        `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
+      );
+      setMessageType("info");
+      setTimeout(() => {
+        setMessage(null);
+        setMessageType("");
+      }, 5000);
+    } catch (exception) {
+      console.error(exception);
+      setMessage("All fields are required");
+      setMessageType("error");
+      setTimeout(() => {
+        setMessage(null);
+        setMessageType("");
+      }, 5000);
+    }
+  };
+
   return (
     <div>
       <h1>Blogs</h1>
@@ -63,22 +89,30 @@ const App = () => {
           messageType={messageType}
         />
       ) : (
-        <BlogForm
-          user={user}
-          setUser={setUser}
-          blogs={blogs}
-          setBlogs={setBlogs}
-          title={title}
-          setNewTitle={setNewTitle}
-          author={author}
-          setNewAuthor={setNewAuthor}
-          url={url}
-          setNewUrl={setNewUrl}
-          message={message}
-          setMessage={setMessage}
-          messageType={messageType}
-          setMessageType={setMessageType}
-        />
+        <div>
+          <p>
+            {user.name} logged in
+            <button onClick={logout}>logout</button>
+          </p>
+          <Toggable buttonLabel="new blog">
+            <BlogForm
+              createBlog={createBlog}
+              user={user}
+              setUser={setUser}
+              blogs={blogs}
+              setBlogs={setBlogs}
+              message={message}
+              setMessage={setMessage}
+              messageType={messageType}
+              setMessageType={setMessageType}
+            />
+          </Toggable>
+          <div>
+            {blogs.map((blog) => (
+              <Blog key={blog.id} blog={blog} />
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );
