@@ -1,19 +1,22 @@
-import Notification from './Notification';
+import { useState } from "react";
+import Notification from "./Notification";
 
-const LoginForm = ({
-  handleLogin,
-  username,
-  setUsername,
-  password,
-  setPassword,
-  message,
-  messageType,
-}) => {
+const LoginForm = ({ handleLogin, message, messageType }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = (event) => {
+    event.preventDefault();
+    handleLogin({username, password});
+    setUsername("");
+    setPassword("");
+  };
+
   return (
     <>
       <h2>Log In To Application</h2>
       <Notification message={message} messageType={messageType} />
-      <form onSubmit={handleLogin}>
+      <form onSubmit={login}>
         <div>
           <input
             type="text"

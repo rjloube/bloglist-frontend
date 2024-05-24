@@ -1,11 +1,7 @@
 import { useState } from "react";
 import Notification from "./Notification";
 
-const BlogForm = ({
-  createBlog,
-  message,
-  messageType,
-}) => {
+const BlogForm = ({ createBlog, message, messageType }) => {
   const [title, setNewTitle] = useState("");
   const [author, setNewAuthor] = useState("");
   const [url, setNewUrl] = useState("");
@@ -23,8 +19,8 @@ const BlogForm = ({
     setNewTitle("");
     setNewAuthor("");
     setNewUrl("");
+  };
 
-  }
   return (
     <div>
       <Notification message={message} messageType={messageType} />

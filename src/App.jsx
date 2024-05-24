@@ -9,8 +9,6 @@ import loginService from "./services/login";
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState("");
 
@@ -27,15 +25,12 @@ const App = () => {
     }
   }, []);
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (loginInfo) => {
     try {
-      const user = await loginService.login({ username, password });
+      const user = await loginService.login(loginInfo);
       window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
       blogService.setToken(user.token);
       setUser(user);
-      setUsername("");
-      setPassword("");
     } catch (exception) {
       console.error(exception);
       setMessage("Wrong username or password");
@@ -81,10 +76,6 @@ const App = () => {
       {user === null ? (
         <LoginForm
           handleLogin={handleLogin}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
           message={message}
           messageType={messageType}
         />
