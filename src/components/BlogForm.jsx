@@ -1,12 +1,19 @@
 import { useState } from "react";
 import Notification from "./Notification";
 
-const BlogForm = ({ createBlog, message, messageType }) => {
+const BlogForm = ({
+  createBlog,
+  message,
+  messageType,
+  visible,
+  setVisible,
+}) => {
   const [title, setNewTitle] = useState("");
   const [author, setNewAuthor] = useState("");
   const [url, setNewUrl] = useState("");
 
   const addBlog = (event) => {
+    setVisible(!visible);
     event.preventDefault();
     const newBlog = {
       title: title,

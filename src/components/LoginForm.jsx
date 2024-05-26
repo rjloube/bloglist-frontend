@@ -1,13 +1,20 @@
 import { useState } from "react";
 import Notification from "./Notification";
 
-const LoginForm = ({ handleLogin, message, messageType }) => {
+const LoginForm = ({
+  handleLogin,
+  message,
+  messageType,
+  visible,
+  setVisible,
+}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const login = (event) => {
     event.preventDefault();
-    handleLogin({username, password});
+    setVisible(!visible);
+    handleLogin({ username, password });
     setUsername("");
     setPassword("");
   };
@@ -35,7 +42,7 @@ const LoginForm = ({ handleLogin, message, messageType }) => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">login</button>
       </form>
     </>
   );
