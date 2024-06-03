@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import Blog from "./components/Blog";
+import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
@@ -94,6 +95,7 @@ const App = () => {
             {user.name} logged in
             <button onClick={logout}>logout</button>
           </p>
+          <Notification message={message} messageType={messageType} />
           <Togglable
             buttonLabel="new blog"
             visible={visible}
@@ -103,6 +105,8 @@ const App = () => {
               createBlog={createBlog}
               message={message}
               messageType={messageType}
+              visible={visible}
+              setVisible={setVisible}
             />
           </Togglable>
           <div>

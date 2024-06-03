@@ -29,6 +29,7 @@ const LoginForm = ({
             type="text"
             name="username"
             placeholder="Username"
+            required={true}
             value={username}
             onChange={({ target }) => setUsername(target.value)}
           />
@@ -38,6 +39,7 @@ const LoginForm = ({
             type="password"
             name="password"
             placeholder="Password"
+            required={true}
             value={password}
             onChange={({ target }) => setPassword(target.value)}
           />

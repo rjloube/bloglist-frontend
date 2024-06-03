@@ -8,7 +8,6 @@ const Togglable = (props) => {
   const showWhenVisible = { display: visible ? "" : "none" };
 
   const toggleVisibility = () => {
-    console.log('toggleVisibility');
     setVisible(!visible);
   };
 

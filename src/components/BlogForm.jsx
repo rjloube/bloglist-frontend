@@ -1,10 +1,7 @@
 import { useState } from "react";
-import Notification from "./Notification";
 
 const BlogForm = ({
   createBlog,
-  message,
-  messageType,
   visible,
   setVisible,
 }) => {
@@ -13,7 +10,6 @@ const BlogForm = ({
   const [url, setNewUrl] = useState("");
 
   const addBlog = (event) => {
-    setVisible(!visible);
     event.preventDefault();
     const newBlog = {
       title: title,
@@ -22,15 +18,14 @@ const BlogForm = ({
     };
 
     createBlog(newBlog);
-
     setNewTitle("");
     setNewAuthor("");
     setNewUrl("");
+    setVisible(!visible);
   };
 
   return (
     <div>
-      <Notification message={message} messageType={messageType} />
       <h2>Create New</h2>
       <form onSubmit={addBlog}>
         <div>
