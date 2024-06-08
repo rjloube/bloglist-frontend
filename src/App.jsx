@@ -52,7 +52,7 @@ const App = () => {
   const createBlog = async (newBlog) => {
     try {
       const returnedBlog = await blogService.create(newBlog);
-      console.log('returnedBlog', returnedBlog);
+      console.log("returnedBlog", returnedBlog);
       setBlogs(blogs.concat(returnedBlog));
       setMessage(
         `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
@@ -70,6 +70,20 @@ const App = () => {
         setMessage(null);
         setMessageType("");
       }, 5000);
+    }
+  };
+
+  const updateBlog = async (blog) => {
+    const updatedBlog = {
+      ...blog,
+      likes: blog.likes + 1,
+    };
+    try {
+      const returnedBlog = await blogService.update(blog.id, updatedBlog);
+      console.log("updatedBlog", returnedBlog);
+      setBlogs(blogs.map((blog) => (blog.id !== returnedBlog.id ? blog : returnedBlog)));
+    } catch (exception) {
+      console.error(exception);
     }
   };
 
@@ -112,7 +126,11 @@ const App = () => {
           </Togglable>
           <div>
             {blogs.map((blog) => (
-              <Blog key={blog.id} blog={blog} />
+              <Blog
+                key={blog.id}
+                blog={blog}
+                updateBlog={() => updateBlog(blog)}
+              />
             ))}
           </div>
         </div>
