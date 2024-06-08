@@ -52,6 +52,7 @@ const App = () => {
   const createBlog = async (newBlog) => {
     try {
       const returnedBlog = await blogService.create(newBlog);
+      console.log('returnedBlog', returnedBlog);
       setBlogs(blogs.concat(returnedBlog));
       setMessage(
         `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
