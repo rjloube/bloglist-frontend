@@ -54,7 +54,6 @@ const App = () => {
       const returnedBlog = await blogService.create(newBlog);
       console.log("returnedBlog", returnedBlog);
       setBlogs(blogs.concat(returnedBlog));
-      setBlogs(blogs.sort((a, b) => b.likes - a.likes))
       setMessage(
         `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
       );
