@@ -13,7 +13,7 @@ const getAll = () => {
 };
 
 const create = async (newObject) => {
-  console.log('create function fired');
+  console.log("create function fired");
   const config = {
     headers: { Authorization: token },
   };
@@ -23,8 +23,16 @@ const create = async (newObject) => {
 };
 
 const update = async (id, newObject) => {
-  const response  = await axios.put(`${baseUrl}/${id}`, newObject);
+  const response = await axios.put(`${baseUrl}/${id}`, newObject);
   return response.data;
 };
 
-export default { getAll, create, update, setToken };
+const remove = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.delete(`${baseUrl}/${id}`, config);
+  return response.data;
+};
+
+export default { getAll, create, update, remove, setToken };

@@ -23,6 +23,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
+      console.log('user', user);
       blogService.setToken(user.token);
     }
   }, []);
@@ -81,9 +82,22 @@ const App = () => {
     try {
       const returnedBlog = await blogService.update(blog.id, updatedBlog);
       console.log("updatedBlog", returnedBlog);
-      setBlogs(blogs.map((blog) => (blog.id !== returnedBlog.id ? blog : returnedBlog)));
+      setBlogs(
+        blogs.map((blog) => (blog.id !== returnedBlog.id ? blog : returnedBlog))
+      );
     } catch (exception) {
       console.error(exception);
+    }
+  };
+
+  const deleteBlog = async (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      try {
+        await blogService.remove(blog.id);
+        setBlogs(blogs.filter((b) => b.id !== blog.id));
+      } catch (exception) {
+        console.error(exception);
+      }
     }
   };
 
@@ -132,6 +146,8 @@ const App = () => {
                   key={blog.id}
                   blog={blog}
                   updateBlog={() => updateBlog(blog)}
+                  deleteBlog={() => deleteBlog(blog)}
+                  currentUser={user}
                 />
               ))}
           </div>
