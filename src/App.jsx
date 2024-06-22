@@ -23,7 +23,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
-      console.log('user', user);
+      console.log("user", user);
       blogService.setToken(user.token);
     }
   }, []);
