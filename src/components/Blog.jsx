@@ -12,7 +12,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, currentUser }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <div style={blogStyle} className={blog}>
+    <div style={blogStyle} className="blog">
       {showDetails ? (
         <div>
           {blog.title} {blog.author}
