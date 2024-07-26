@@ -1,11 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-const BlogForm = ({
-  createBlog,
-  visible,
-  setVisible,
-}) => {
+const BlogForm = ({ createBlog }) => {
   const [title, setNewTitle] = useState("");
   const [author, setNewAuthor] = useState("");
   const [url, setNewUrl] = useState("");
@@ -22,7 +18,6 @@ const BlogForm = ({
     setNewTitle("");
     setNewAuthor("");
     setNewUrl("");
-    setVisible(!visible);
   };
 
   return (
@@ -30,29 +25,32 @@ const BlogForm = ({
       <h2>Create New</h2>
       <form onSubmit={addBlog}>
         <div>
-          title:{" "}
+          <label htmlFor="title">title: </label>
           <input
             type="text"
             value={title}
             name="title"
+            id="title"
             onChange={(event) => setNewTitle(event.target.value)}
           />
         </div>
         <div>
-          author:{" "}
+          <label htmlFor="author">author: </label>
           <input
             type="text"
             value={author}
             name="author"
+            id="author"
             onChange={(event) => setNewAuthor(event.target.value)}
           />
         </div>
         <div>
-          url:{" "}
+          <label htmlFor="url">url: </label>
           <input
             type="text"
             value={url}
             name="url"
+            id="url"
             onChange={(event) => setNewUrl(event.target.value)}
           />
         </div>
@@ -64,8 +62,6 @@ const BlogForm = ({
 
 BlogForm.propTypes = {
   createBlog: PropTypes.func.isRequired,
-  visible: PropTypes.bool.isRequired,
-  setVisible: PropTypes.func.isRequired,
 };
 
 export default BlogForm;

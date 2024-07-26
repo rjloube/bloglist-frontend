@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import Blog from "./components/Blog";
@@ -12,7 +12,8 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState("");
-  const [visible, setVisible] = useState(false);
+  const loginFormRef = useRef();
+  const blogFormRef = useRef();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -30,6 +31,7 @@ const App = () => {
 
   const handleLogin = async (loginInfo) => {
     try {
+      loginFormRef.current.toggleVisibility();
       const user = await loginService.login(loginInfo);
       window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
       blogService.setToken(user.token);
@@ -52,6 +54,7 @@ const App = () => {
 
   const createBlog = async (newBlog) => {
     try {
+      blogFormRef.current.toggleVisibility();
       const returnedBlog = await blogService.create(newBlog);
       console.log("returnedBlog", returnedBlog);
       setBlogs(blogs.concat(returnedBlog));
@@ -105,17 +108,11 @@ const App = () => {
     <div>
       <h1>Blogs</h1>
       {user === null ? (
-        <Togglable
-          buttonLabel="login"
-          visible={visible}
-          setVisible={setVisible}
-        >
+        <Togglable buttonLabel="login" ref={loginFormRef}>
           <LoginForm
             handleLogin={handleLogin}
             message={message}
             messageType={messageType}
-            visible={visible}
-            setVisible={setVisible}
           />
         </Togglable>
       ) : (
@@ -125,17 +122,11 @@ const App = () => {
             <button onClick={logout}>logout</button>
           </p>
           <Notification message={message} messageType={messageType} />
-          <Togglable
-            buttonLabel="new blog"
-            visible={visible}
-            setVisible={setVisible}
-          >
+          <Togglable buttonLabel="new blog" ref={blogFormRef}>
             <BlogForm
               createBlog={createBlog}
               message={message}
               messageType={messageType}
-              visible={visible}
-              setVisible={setVisible}
             />
           </Togglable>
           <div>

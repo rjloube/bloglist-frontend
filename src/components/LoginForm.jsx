@@ -1,19 +1,12 @@
 import { useState } from "react";
 import Notification from "./Notification";
 
-const LoginForm = ({
-  handleLogin,
-  message,
-  messageType,
-  visible,
-  setVisible,
-}) => {
+const LoginForm = ({ handleLogin, message, messageType }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const login = (event) => {
     event.preventDefault();
-    setVisible(!visible);
     handleLogin({ username, password });
     setUsername("");
     setPassword("");
